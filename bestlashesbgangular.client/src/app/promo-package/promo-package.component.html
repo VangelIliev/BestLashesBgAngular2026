@@ -36,12 +36,12 @@
       />
       <div class="promo-package__price-bubble">
         <div class="price-row">
-          <span class="price">35 €</span>
+          <span class="price">{{ formatPrice(promoPriceBgn) }}</span>
         </div>
         <span class="note">включва два комплекта</span>
       </div>
       <a routerLink="/shopping-basket" [queryParams]="{ add: 'promo-pack' }" class="promo-package__cta">Поръчай сега</a>
-      <p class="promo-package__smallprint">Безплатна доставка при поръчка над 50 €</p>
+      <p class="promo-package__smallprint">Безплатна доставка при поръчка над {{ formatPrice(freeShippingThresholdBgn) }}</p>
     </aside>
   </div>
 

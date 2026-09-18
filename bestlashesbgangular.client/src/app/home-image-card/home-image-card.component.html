@@ -5,12 +5,16 @@
   </header>
 
   <div class="package-grid">
-    <article class="package-card" *ngFor="let pkg of packages">
+    <article
+      class="package-card"
+      [class.package-card--hero]="pkg.id === 'home-lash-pack'"
+      *ngFor="let pkg of packages; let i = index"
+    >
       <div class="package-card__top">
         <h2 class="package-card__name">{{ pkg.name }}</h2>
         <div class="package-card__price-badge">
-          <span *ngIf="pkg.oldPrice" class="package-card__old-price">{{ pkg.oldPrice }}</span>
-          <span class="package-card__price">{{ pkg.price }}</span>
+          <span *ngIf="pkg.oldPriceBgn" class="package-card__old-price">{{ formatPrice(pkg.oldPriceBgn) }}</span>
+          <span class="package-card__price">{{ formatPrice(pkg.priceBgn) }}</span>
         </div>
       </div>
 
@@ -24,7 +28,7 @@
             <img
               [src]="pkg.image"
               [alt]="pkg.imageAlt || pkg.name"
-              loading="lazy"
+              [attr.loading]="i === 0 ? 'eager' : 'lazy'"
               (error)="onImageError(pkg)"
             />
           </ng-container>
@@ -40,7 +44,7 @@
             <img
               [src]="pkg.image"
               [alt]="pkg.imageAlt || pkg.name"
-              loading="lazy"
+              [attr.loading]="i === 0 ? 'eager' : 'lazy'"
               (error)="onImageError(pkg)"
             />
           </ng-container>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { formatCurrencyPair } from '../shared/currency';
 
 interface OrderSummaryItem {
   id: string;
@@ -66,7 +67,7 @@ export class ThankYouPageComponent implements OnInit {
   }
 
   formatCurrency(value: number): string {
-    return `${value.toFixed(2)} €`;
+    return formatCurrencyPair(value);
   }
 
   deliveryMethodLabel(method?: DeliveryMethod): string {

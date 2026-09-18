@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { formatCurrencyPair } from '../shared/currency';
 
 interface PackageSection {
   title: string;
@@ -13,9 +14,11 @@ interface PackageSection {
   styleUrl: './promo-package.component.css'
 })
 export class PromoPackageComponent {
-  readonly promoVideoSrc = 'https://res.cloudinary.com/dl6dp2cr0/video/upload/v1761427397/VideoDayAndNight_wp4am5.mp4';
-  readonly promoVideoPoster = 'https://res.cloudinary.com/dl6dp2cr0/image/upload/v1761427556/NightAndDayImagePromo_lkjrad.jpg';
+  readonly promoVideoSrc = '/assets/videos/promo-video.mp4';
+  readonly promoVideoPoster = '/assets/images/night-and-day-promo.jpg';
   readonly productImage = this.promoVideoPoster;
+  readonly promoPriceBgn = 69;
+  readonly freeShippingThresholdBgn = 100;
 
   readonly daySection: PackageSection = {
     title: 'Комплект “Ден” ☀️',
@@ -45,5 +48,9 @@ export class PromoPackageComponent {
     'Апликатор за лесно поставяне',
     'Луксозна кутия за съхранение'
   ];
+
+  formatPrice(bgn: number): string {
+    return formatCurrencyPair(bgn);
+  }
 }
 

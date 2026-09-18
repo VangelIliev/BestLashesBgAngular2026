@@ -15,6 +15,7 @@ namespace BestLashesBgAngular.Domain.Services.Implementation
     {
         private readonly EmailSettings _settings;
         private readonly CultureInfo _culture = CultureInfo.GetCultureInfo("bg-BG");
+        private const double BgnToEurRate = 1.95583;
 
         public EmailSender(EmailSettings settings)
         {
@@ -101,11 +102,14 @@ namespace BestLashesBgAngular.Domain.Services.Implementation
             sb.AppendLine("Продукти:");
             foreach (var item in model.Items)
             {
-                sb.AppendLine($" - {item.Name}: {item.Quantity} × {item.UnitPrice.ToString("F2", _culture)} лв = {(item.UnitPrice * item.Quantity).ToString("F2", _culture)} лв");
+                var unitPriceEur = item.UnitPrice / BgnToEurRate;
+                var lineTotalEur = (item.UnitPrice * item.Quantity) / BgnToEurRate;
+                sb.AppendLine($" - {item.Name}: {item.Quantity} × {unitPriceEur.ToString("F2", _culture)} € = {lineTotalEur.ToString("F2", _culture)} €");
             }
 
             sb.AppendLine();
-            sb.AppendLine($"Междинна сума: {model.Subtotal.ToString("F2", _culture)} лв");
+            var subtotalEur = model.Subtotal / BgnToEurRate;
+            sb.AppendLine($"Междинна сума: {subtotalEur.ToString("F2", _culture)} €");
             // var hasDiscountCode = !string.IsNullOrWhiteSpace(model.DiscountCode);
             // sb.AppendLine($"Код за отстъпка: {(hasDiscountCode ? model.DiscountCode : "няма")}");
             // if (model.DiscountValue > 0)
@@ -116,7 +120,8 @@ namespace BestLashesBgAngular.Domain.Services.Implementation
             // {
             //     sb.AppendLine("Отстъпката не беше приложена (стойност 0.00 лв).");
             // }
-            sb.AppendLine($"Общо за плащане: {model.Total.ToString("F2", _culture)} лв");
+            var totalEur = model.Total / BgnToEurRate;
+            sb.AppendLine($"Общо за плащане: {totalEur.ToString("F2", _culture)} €");
 
             sb.AppendLine();
             sb.AppendLine("Изпратено автоматично от Best Lashes BG уеб сайта.");

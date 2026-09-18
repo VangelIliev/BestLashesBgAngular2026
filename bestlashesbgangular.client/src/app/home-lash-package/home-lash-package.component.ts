@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { formatCurrencyPair } from '../shared/currency';
 
 interface LashVariant {
   id: string;
@@ -23,40 +24,30 @@ export class HomeLashPackageComponent implements AfterViewInit, OnDestroy {
   private removeInteractionListener?: () => void;
 
   constructor(private readonly renderer: Renderer2) {}
-  readonly demoVideoSrc = 'https://res.cloudinary.com/dl6dp2cr0/video/upload/v1761427399/Migloplastic_oghxpg.mp4';
-  readonly demoVideoPoster = 'https://res.cloudinary.com/dl6dp2cr0/image/upload/v1761428362/Summer_Collection_1_o2pjun.jpg';
+  readonly demoVideoSrc = '/assets/videos/demo-video.mp4';
+  readonly demoVideoPoster = '/assets/images/summer-collection.jpg';
+  readonly kitPriceBgn = 69;
+  readonly freeShippingThresholdBgn = 100;
 
   readonly variants: LashVariant[] = [
     {
-      id: 'home-kit-classic',
-      name: 'Класическа миглопластика',
-      description: 'Перфектна за ежедневие, 8-16 мм',
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/v1761428114/Chocolate_Collection_1_bxvie6.jpg'
+      id: 'home-kit-light',
+      name: 'Light Feminine',
+      description: 'Естествена,нежна, ефирна "косъм по косъм" и "no make up" ефект',
+      image: '/assets/images/home-kit-light.jpg'
     },
     {
-      id: 'home-kit-hybrid',
-      name: 'Хибридна миглопластика',
-      description: 'Комбинация от класически и обемни снопчета за по-богат ефект, 12-14-16мм.',
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/v1761428114/Natural_Migloplastic_2025_kupkmc.jpg'
+      id: 'home-kit-dark',
+      name: 'Dark Feminine',
+      description: 'Гъста 8-14 мм и с кадифен завършек',
+      image: '/assets/images/home-kit-dark.jpg'
     },
     {
       id: 'home-kit-foxy',
       name: 'Фокси миглопластика',
       description: 'Ефект "очна линия", L изивка',
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/v1761428114/Fox_1_j02zw3.jpg'
+      image: '/assets/images/fox-lashes.jpg'
     },
-    {
-      id: 'home-kit-natural',
-      name: 'Коледна Колекция',
-      description: 'Средна дължина и средна гъстота, 10-12-14 мм',
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/v1765273209/viber_image_2025-12-09_11-27-09-778_odfnl5.jpg'
-    },
-    {
-      id: 'home-kit-mega',
-      name: 'МЕГА обем, МЕГА гъстота',
-      description: 'Супер гъсти и пухкави с D извивка, 8-16 мм',
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/v1762081030/viber_image_2025-11-02_12-01-00-060_tltu0w.jpg'
-    }
   ];
 
   readonly kitDetails: KitDetail[] = [
@@ -85,6 +76,10 @@ export class HomeLashPackageComponent implements AfterViewInit, OnDestroy {
 
   selectVariant(variant: LashVariant): void {
     this.activeVariant = variant;
+  }
+
+  formatPrice(bgn: number): string {
+    return formatCurrencyPair(bgn);
   }
 
   ngAfterViewInit(): void {

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { formatCurrencyPair } from '../shared/currency';
 
 type HomePackage = {
   id: string;
   name: string;
-  price: string;
-  oldPrice?: string;
+  priceBgn: number;
+  oldPriceBgn?: number;
   description: string;
   image?: string;
   imageAlt?: string;
@@ -23,9 +24,9 @@ export class HomeImageCardComponent {
     {
       id: 'home-lash-pack',
       name: 'Миглопластика вкъщи',
-      price: '35 €',
+      priceBgn: 69,
       description: 'Всичко необходимо, за да направиш миглопластика вкъщи като професионалист.',
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/w_840,h_620,c_fill,q_auto,f_auto/v1761412142/Best_Lashes_Cover_Image_2_hlfykp.jpg',
+      image: '/assets/images/cover-image-2.jpg',
       imageAlt: 'Комплект за миглопластика вкъщи',
       link: '/home-lash-package',
       ctaLabel: 'Виж повече'
@@ -33,14 +34,18 @@ export class HomeImageCardComponent {
     {
       id: 'promo-pack',
       name: 'Промо пакет',
-      price: '35 €',
+      priceBgn: 69,
       description: 'Пълен комплект за магнетичен поглед + аксесоари за бързо приложение.',
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/w_840,h_620,c_fill,q_auto,f_auto/v1761412141/Best_Lashes_Cover_Image__oipyfg.jpg',
+      image: '/assets/images/cover-image-1.jpg',
       imageAlt: 'Промо пакет Best Lashes BG',
       link: '/promo-package',
       ctaLabel: 'Виж повече'
     }
   ];
+
+  formatPrice(bgn: number): string {
+    return formatCurrencyPair(bgn);
+  }
 
   onImageError(pkg: HomePackage): void {
     pkg.image = undefined;

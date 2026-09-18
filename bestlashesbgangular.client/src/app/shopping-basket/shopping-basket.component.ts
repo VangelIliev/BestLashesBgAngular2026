@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { formatCurrencyPair } from '../shared/currency';
 
 interface BasketItem {
   id: string;
@@ -88,48 +89,26 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
   private readonly customerStorageKey = 'bestlashes-checkout-customer';
 
   private readonly productCatalog: Record<string, Omit<BasketItem, 'quantity'>> = {
-    'promo-pack': {
-      id: 'promo-pack',
-      name: 'Промо пакет „Ден и Нощ“',
-      subtitle: 'Два чифта магнитни мигли + 2 линии и апликатор',
-      price: 35,
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/w_420,h_420,c_fill,q_auto,f_auto/v1761412141/Best_Lashes_Cover_Image__oipyfg.jpg'
+    'home-kit-light': {
+      id: 'home-kit-light',
+      name: 'Light Feminine',
+      subtitle: 'Естествена, нежна, ефирна "косъм по косъм" и "no make up" ефект',
+      price: 69,
+      image: '/assets/images/home-kit-light.jpg'
     },
-    'home-kit-classic': {
-      id: 'home-kit-classic',
-      name: 'Комплект „Миглопластика вкъщи“ — Класически',
-      subtitle: 'Перфектен за ежедневие, 8-16 мм',
-      price: 35,
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/w_420,h_420,c_fill,q_auto,f_auto/v1761428114/Chocolate_Collection_1_bxvie6.jpg',
-      tag: 'Най-продаван'
-    },
-    'home-kit-hybrid': {
-      id: 'home-kit-hybrid',
-      name: 'Комплект „Миглопластика вкъщи“ — Хибриден',
-      subtitle: 'Комбинация от класически и обемни снопчета',
-      price: 35,
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/w_420,h_420,c_fill,q_auto,f_auto/v1761428114/Natural_Migloplastic_2025_kupkmc.jpg'
+    'home-kit-dark': {
+      id: 'home-kit-dark',
+      name: 'Dark Feminine',
+      subtitle: 'Гъста 8-14 мм и с кадифен завършек',
+      price: 69,
+      image: '/assets/images/home-kit-dark.jpg'
     },
     'home-kit-foxy': {
       id: 'home-kit-foxy',
       name: 'Комплект „Миглопластика вкъщи“ — Фокси',
       subtitle: 'Ефект „очна линия“, L изивка',
-      price: 35,
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/w_420,h_420,c_fill,q_auto,f_auto/v1761428114/Fox_1_j02zw3.jpg'
-    },
-    'home-kit-natural': {
-      id: 'home-kit-natural',
-      name: 'Коледна Колекция',
-      subtitle: 'Средна дължина и средна гъстота, 10-12-14 мм',
-      price: 35,
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/v1765273209/viber_image_2025-12-09_11-27-09-778_odfnl5.jpg'
-    },
-    'home-kit-mega': {
-      id: 'home-kit-mega',
-      name: 'Комплект „Миглопластика вкъщи“ — МЕГА обем, МЕГА гъстота',
-      subtitle: 'Супер гъсти и пухкави с D извивка, 8-16 мм',
-      price: 35,
-      image: 'https://res.cloudinary.com/dl6dp2cr0/image/upload/w_420,h_420,c_fill,q_auto,f_auto/v1762081030/viber_image_2025-11-02_12-01-00-060_tltu0w.jpg'
+      price: 69,
+      image: '/assets/images/fox-lashes.jpg'
     }
   };
 
@@ -196,6 +175,10 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
   get total(): number {
     const value = this.subtotal - this.discountValue;
     return value > 0 ? value : 0;
+  }
+
+  formatPrice(bgn: number): string {
+    return formatCurrencyPair(bgn);
   }
 
   applyDiscount(code: string): void {
