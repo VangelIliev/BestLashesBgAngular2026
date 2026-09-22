@@ -24,29 +24,29 @@ export class HomeLashPackageComponent implements AfterViewInit, OnDestroy {
   private removeInteractionListener?: () => void;
 
   constructor(private readonly renderer: Renderer2) {}
-  readonly demoVideoSrc = '/assets/videos/demo-video.mp4';
-  readonly demoVideoPoster = '/assets/images/summer-collection.jpg';
-  readonly kitPriceBgn = 69;
-  readonly freeShippingThresholdBgn = 100;
+  readonly demoVideoSrc = '/assets/videos/Migloplastika_vkushti.mp4';
+  readonly demoVideoPoster = '/assets/images/Dolce_small.webp';
+  readonly kitPriceEur = 35;
+  readonly freeShippingThresholdEur = 50;
 
   readonly variants: LashVariant[] = [
     {
       id: 'home-kit-light',
-      name: 'Light Feminine',
-      description: 'Естествена,нежна, ефирна "косъм по косъм" и "no make up" ефект',
-      image: '/assets/images/home-kit-light.jpg'
+      name: 'Diva Миглопластика',
+      description: 'Мега обем мега гъстота за впечатляващ поглед',
+      image: '/assets/images/Diva_small.webp'
     },
     {
       id: 'home-kit-dark',
-      name: 'Dark Feminine',
-      description: 'Гъста 8-14 мм и с кадифен завършек',
-      image: '/assets/images/home-kit-dark.jpg'
+      name: 'Dolce Миглопластика',
+      description: 'Класически ефект подходящ както за ежедневен така и за вечерен грим',
+      image: '/assets/images/Dolce_small.webp'
     },
     {
       id: 'home-kit-foxy',
-      name: 'Фокси миглопластика',
+      name: 'Foxy Миглопластика',
       description: 'Ефект "очна линия", L изивка',
-      image: '/assets/images/fox-lashes.jpg'
+      image: '/assets/images/Foxy_Small.webp'
     },
   ];
 
@@ -78,8 +78,8 @@ export class HomeLashPackageComponent implements AfterViewInit, OnDestroy {
     this.activeVariant = variant;
   }
 
-  formatPrice(bgn: number): string {
-    return formatCurrencyPair(bgn);
+  formatPrice(eur: number): string {
+    return formatCurrencyPair(eur);
   }
 
   ngAfterViewInit(): void {

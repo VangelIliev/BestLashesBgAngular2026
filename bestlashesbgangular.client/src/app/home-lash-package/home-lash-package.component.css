@@ -58,6 +58,9 @@
 .lash-kit__video,
 .lash-kit__placeholder {
   width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 70vh;
+  object-fit: cover;
   border-radius: clamp(1.4rem, 3vw, 2.4rem);
   box-shadow: 0 24px 54px rgba(150, 32, 92, 0.16);
   background: transparent;
@@ -311,6 +314,12 @@
   .lash-kit {
     padding: clamp(1.6rem, 8vw, 2.4rem);
     border-radius: 1.8rem;
+  }
+
+  .lash-kit__video,
+  .lash-kit__placeholder {
+    aspect-ratio: 9 / 16;
+    max-height: 60vh;
   }
 
   .lash-kit__price-row {

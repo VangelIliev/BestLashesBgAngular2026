@@ -1,9 +1,9 @@
 <section class="promo-package">
   <header class="promo-package__intro">
     <p class="promo-package__eyebrow">Избери своя мечтан пакет</p>
-    <h1 class="promo-package__title">Промо пакет „Ден и Нощ“</h1>
+    <h1 class="promo-package__title">Миглопластика на лента</h1>
     <p class="promo-package__subtitle">
-      Два магнетични стила в една луксозна кутия – нежно „ден“ излъчване и дръзка „нощ“ визия, готови за поставяне за под 5 минути.
+      Руски обем с „D“ извивка, имитиращи 1 към 1 миглопластика но само с едно поставяне на лентата.
     </p>
   </header>
 
@@ -31,17 +31,16 @@
       <img
         class="promo-package__card-image"
         [src]="productImage"
-        alt="Промо пакет Best Lashes BG"
+        alt="Миглопластика на лента Best Lashes BG"
         loading="lazy"
       />
       <div class="promo-package__price-bubble">
         <div class="price-row">
-          <span class="price">{{ formatPrice(promoPriceBgn) }}</span>
+          <span class="price">{{ formatPrice(promoPriceEur) }}</span>
         </div>
-        <span class="note">включва два комплекта</span>
       </div>
       <a routerLink="/shopping-basket" [queryParams]="{ add: 'promo-pack' }" class="promo-package__cta">Поръчай сега</a>
-      <p class="promo-package__smallprint">Безплатна доставка при поръчка над {{ formatPrice(freeShippingThresholdBgn) }}</p>
+      <p class="promo-package__smallprint">Безплатна доставка при поръчка над {{ formatPrice(freeShippingThresholdEur) }}</p>
     </aside>
   </div>
 
@@ -51,24 +50,6 @@
       <ul class="promo-package__list">
         <li *ngFor="let item of whatsInside">{{ item }}</li>
       </ul>
-    </article>
-
-    <article class="promo-package__section">
-      <h2 class="promo-package__section-title">Два комплекта, две настроения</h2>
-      <div class="promo-package__split">
-        <div class="promo-package__stack">
-          <h3>{{ daySection.title }}</h3>
-          <ul class="promo-package__list promo-package__list--bullets">
-            <li *ngFor="let item of daySection.items">{{ item }}</li>
-          </ul>
-        </div>
-        <div class="promo-package__stack">
-          <h3>{{ nightSection.title }}</h3>
-          <ul class="promo-package__list promo-package__list--bullets">
-            <li *ngFor="let item of nightSection.items">{{ item }}</li>
-          </ul>
-        </div>
-      </div>
     </article>
 
     <article class="promo-package__section promo-package__section--accent">

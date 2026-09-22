@@ -183,7 +183,7 @@
 }
 
 .package-card--hero .package-card__media img {
-  object-fit: contain;
+  object-fit: cover;
   background: #fff;
 }
 

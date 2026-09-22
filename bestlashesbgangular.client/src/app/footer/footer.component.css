@@ -131,6 +131,8 @@
   border-top: 1px solid rgba(60, 24, 51, 0.18);
   padding-top: 1rem;
   text-align: center;
+  display: grid;
+  gap: 0.5rem;
 }
 
 .copyright {
@@ -139,6 +141,20 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.75;
+}
+
+.terms-link {
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6c2c59;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.terms-link:hover,
+.terms-link:focus-visible {
+  color: #b03f82;
 }
 
 @media (min-width: 768px) {

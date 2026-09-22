@@ -13,8 +13,8 @@
       <div class="package-card__top">
         <h2 class="package-card__name">{{ pkg.name }}</h2>
         <div class="package-card__price-badge">
-          <span *ngIf="pkg.oldPriceBgn" class="package-card__old-price">{{ formatPrice(pkg.oldPriceBgn) }}</span>
-          <span class="package-card__price">{{ formatPrice(pkg.priceBgn) }}</span>
+          <span *ngIf="pkg.oldPriceEur" class="package-card__old-price">{{ formatPrice(pkg.oldPriceEur) }}</span>
+          <span class="package-card__price">{{ formatPrice(pkg.priceEur) }}</span>
         </div>
       </div>
 

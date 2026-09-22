@@ -91,24 +91,31 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
   private readonly productCatalog: Record<string, Omit<BasketItem, 'quantity'>> = {
     'home-kit-light': {
       id: 'home-kit-light',
-      name: 'Light Feminine',
-      subtitle: 'Естествена, нежна, ефирна "косъм по косъм" и "no make up" ефект',
-      price: 69,
-      image: '/assets/images/home-kit-light.jpg'
+      name: 'Diva Миглопластика',
+      subtitle: 'Мега обем мега гъстота за впечатляващ поглед',
+      price: 35,
+      image: '/assets/images/Diva_small.webp'
     },
     'home-kit-dark': {
       id: 'home-kit-dark',
-      name: 'Dark Feminine',
-      subtitle: 'Гъста 8-14 мм и с кадифен завършек',
-      price: 69,
-      image: '/assets/images/home-kit-dark.jpg'
+      name: 'Dolce Миглопластика',
+      subtitle: 'Класически ефект подходящ както за ежедневен така и за вечерен грим',
+      price: 35,
+      image: '/assets/images/Dolce_small.webp'
     },
     'home-kit-foxy': {
       id: 'home-kit-foxy',
-      name: 'Комплект „Миглопластика вкъщи“ — Фокси',
+      name: 'Foxy Миглопластика',
       subtitle: 'Ефект „очна линия“, L изивка',
-      price: 69,
-      image: '/assets/images/fox-lashes.jpg'
+      price: 35,
+      image: '/assets/images/Foxy_Small.webp'
+    },
+    'promo-pack': {
+      id: 'promo-pack',
+      name: 'Миглопластика на лента',
+      subtitle: 'Руски обем с "D" извивка, имитиращи 1 към 1 миглопластика',
+      price: 30,
+      image: '/assets/images/Migloplastika_Lenta.webp'
     }
   };
 
@@ -177,8 +184,8 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
     return value > 0 ? value : 0;
   }
 
-  formatPrice(bgn: number): string {
-    return formatCurrencyPair(bgn);
+  formatPrice(eur: number): string {
+    return formatCurrencyPair(eur);
   }
 
   applyDiscount(code: string): void {

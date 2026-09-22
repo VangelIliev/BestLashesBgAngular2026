@@ -14,6 +14,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
 import { PromoPackageComponent } from './promo-package/promo-package.component';
 import { HomeLashPackageComponent } from './home-lash-package/home-lash-package.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { HomeLashPackageComponent } from './home-lash-package/home-lash-package.
     AboutUsComponent,
     ThankYouPageComponent,
     PromoPackageComponent,
-    HomeLashPackageComponent
+    HomeLashPackageComponent,
+    TermsAndConditionsComponent
   ],
   imports: [
     BrowserModule,

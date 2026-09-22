@@ -15,7 +15,6 @@ namespace BestLashesBgAngular.Domain.Services.Implementation
     {
         private readonly EmailSettings _settings;
         private readonly CultureInfo _culture = CultureInfo.GetCultureInfo("bg-BG");
-        private const double BgnToEurRate = 1.95583;
 
         public EmailSender(EmailSettings settings)
         {
@@ -41,12 +40,8 @@ namespace BestLashesBgAngular.Domain.Services.Implementation
                 Credentials = new NetworkCredential(_settings.UserName, _settings.Password)
             };
 
-#if NET8_0_OR_GREATER
+
             await smtpClient.SendMailAsync(message, cancellationToken);
-#else
-            cancellationToken.ThrowIfCancellationRequested();
-            await smtpClient.SendMailAsync(message);
-#endif
         }
 
         private MailMessage CreateMailMessage(ShoppingBasketModel model)
@@ -102,13 +97,13 @@ namespace BestLashesBgAngular.Domain.Services.Implementation
             sb.AppendLine("Продукти:");
             foreach (var item in model.Items)
             {
-                var unitPriceEur = item.UnitPrice / BgnToEurRate;
-                var lineTotalEur = (item.UnitPrice * item.Quantity) / BgnToEurRate;
+                var unitPriceEur = item.UnitPrice;
+                var lineTotalEur = item.UnitPrice * item.Quantity;
                 sb.AppendLine($" - {item.Name}: {item.Quantity} × {unitPriceEur.ToString("F2", _culture)} € = {lineTotalEur.ToString("F2", _culture)} €");
             }
 
             sb.AppendLine();
-            var subtotalEur = model.Subtotal / BgnToEurRate;
+            var subtotalEur = model.Subtotal;
             sb.AppendLine($"Междинна сума: {subtotalEur.ToString("F2", _culture)} €");
             // var hasDiscountCode = !string.IsNullOrWhiteSpace(model.DiscountCode);
             // sb.AppendLine($"Код за отстъпка: {(hasDiscountCode ? model.DiscountCode : "няма")}");
@@ -120,7 +115,7 @@ namespace BestLashesBgAngular.Domain.Services.Implementation
             // {
             //     sb.AppendLine("Отстъпката не беше приложена (стойност 0.00 лв).");
             // }
-            var totalEur = model.Total / BgnToEurRate;
+            var totalEur = model.Total;
             sb.AppendLine($"Общо за плащане: {totalEur.ToString("F2", _culture)} €");
 
             sb.AppendLine();

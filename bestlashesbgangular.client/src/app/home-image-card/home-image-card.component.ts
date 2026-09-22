@@ -4,8 +4,8 @@ import { formatCurrencyPair } from '../shared/currency';
 type HomePackage = {
   id: string;
   name: string;
-  priceBgn: number;
-  oldPriceBgn?: number;
+  priceEur: number;
+  oldPriceEur?: number;
   description: string;
   image?: string;
   imageAlt?: string;
@@ -24,27 +24,27 @@ export class HomeImageCardComponent {
     {
       id: 'home-lash-pack',
       name: 'Миглопластика вкъщи',
-      priceBgn: 69,
+      priceEur: 35,
       description: 'Всичко необходимо, за да направиш миглопластика вкъщи като професионалист.',
-      image: '/assets/images/cover-image-2.jpg',
+      image: '/assets/images/Dolce.webp',
       imageAlt: 'Комплект за миглопластика вкъщи',
       link: '/home-lash-package',
       ctaLabel: 'Виж повече'
     },
     {
       id: 'promo-pack',
-      name: 'Промо пакет',
-      priceBgn: 69,
-      description: 'Пълен комплект за магнетичен поглед + аксесоари за бързо приложение.',
-      image: '/assets/images/cover-image-1.jpg',
-      imageAlt: 'Промо пакет Best Lashes BG',
-      link: '/promo-package',
+      name: 'Миглопластика на лента',
+      priceEur: 30,
+      description: 'Руски обем с „D“ извивка, имитиращи 1 към 1 миглопластика но само с едно поставяне на лентата.',
+      image: '/assets/images/Migloplastika_Lenta.webp',
+      imageAlt: 'Миглопластика на лента Best Lashes BG',
+      link: '/migloplastika-lenta',
       ctaLabel: 'Виж повече'
     }
   ];
 
-  formatPrice(bgn: number): string {
-    return formatCurrencyPair(bgn);
+  formatPrice(eur: number): string {
+    return formatCurrencyPair(eur);
   }
 
   onImageError(pkg: HomePackage): void {
