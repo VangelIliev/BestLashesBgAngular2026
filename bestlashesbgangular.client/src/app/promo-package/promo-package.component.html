@@ -3,7 +3,7 @@
     <p class="promo-package__eyebrow">Избери своя мечтан пакет</p>
     <h1 class="promo-package__title">Миглопластика на лента</h1>
     <p class="promo-package__subtitle">
-      Руски обем с „D“ извивка, имитиращи 1 към 1 миглопластика но само с едно поставяне на лентата.
+      Руски обем с „D“ извивка, имитиращи 1 към 1 миглопластика, но само с едно поставяне на лентата.
     </p>
   </header>
 
@@ -11,6 +11,7 @@
     <div class="promo-package__media">
       <ng-container *ngIf="promoVideoSrc; else mediaPlaceholder">
         <video
+          #promoVideo
           class="promo-package__video"
           [poster]="promoVideoPoster"
           autoplay

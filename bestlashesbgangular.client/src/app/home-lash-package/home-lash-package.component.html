@@ -11,6 +11,7 @@
     <div class="lash-kit__media">
       <ng-container *ngIf="demoVideoSrc; else demoPlaceholder">
         <video
+          #demoVideo
           class="lash-kit__video"
           [poster]="demoVideoPoster"
           autoplay

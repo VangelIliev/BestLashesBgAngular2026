@@ -35,7 +35,7 @@ export class HomeImageCardComponent {
       id: 'promo-pack',
       name: 'Миглопластика на лента',
       priceEur: 30,
-      description: 'Руски обем с „D“ извивка, имитиращи 1 към 1 миглопластика но само с едно поставяне на лентата.',
+      description: 'Руски обем с „D“ извивка, имитиращи 1 към 1 миглопластика, но само с едно поставяне на лентата.',
       image: '/assets/images/Migloplastika_Lenta.webp',
       imageAlt: 'Миглопластика на лента Best Lashes BG',
       link: '/migloplastika-lenta',

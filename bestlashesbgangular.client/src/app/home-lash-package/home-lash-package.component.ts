@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+﻿import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { formatCurrencyPair } from '../shared/currency';
 
 interface LashVariant {
@@ -45,7 +45,7 @@ export class HomeLashPackageComponent implements AfterViewInit, OnDestroy {
     {
       id: 'home-kit-foxy',
       name: 'Foxy Миглопластика',
-      description: 'Ефект "очна линия", L изивка',
+      description: 'Ефект „очна линия“, L изивка',
       image: '/assets/images/Foxy_Small.webp'
     },
   ];
@@ -55,7 +55,7 @@ export class HomeLashPackageComponent implements AfterViewInit, OnDestroy {
       title: 'Включва',
       items: [
         '120+ снопчета за многократно ползване',
-        'Лепило тип "спирала" и запечатващ гел',
+        'Лепило тип „спирала“ и запечатващ гел',
         'Пинсета',
         'Четка за разресване',
         'Четка за почистване',
