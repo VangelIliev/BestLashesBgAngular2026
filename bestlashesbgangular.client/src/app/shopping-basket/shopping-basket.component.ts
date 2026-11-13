@@ -24,6 +24,23 @@ interface DiscountDefinition {
 
 type DeliveryMethod = 'econt-office' | 'personal-address';
 
+interface EcontCity {
+  id: number;
+  name: string;
+  nameEn?: string;
+  postCode?: string;
+}
+
+interface EcontOffice {
+  id: number;
+  code?: string;
+  name: string;
+  nameEn?: string;
+  address?: {
+    fullAddress?: string;
+  };
+}
+
 interface CustomerDetails {
   firstName: string;
   lastName: string;
@@ -39,6 +56,8 @@ type CheckoutFormValue = {
   phone: string;
   deliveryMethod: DeliveryMethod;
   deliveryAddress: string;
+  econtCityId: number | null;
+  econtOfficeId: number | null;
   gdprConsent: boolean;
 };
 
@@ -84,6 +103,16 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
   checkoutError = '';
   private readonly phonePattern = /^(\+359|0)(?:[\s-]?\d){9}$/;
 
+  econtCities: EcontCity[] = [];
+  econtOffices: EcontOffice[] = [];
+  isLoadingCities = false;
+  isLoadingOffices = false;
+  econtLoadError = '';
+
+  cityFilterText = '';
+  filteredCities: EcontCity[] = [];
+  showCityDropdown = false;
+
   private readonly storageKey = 'bestlashes-cart-items';
   private readonly discountStorageKey = 'bestlashes-cart-discount';
   private readonly customerStorageKey = 'bestlashes-checkout-customer';
@@ -93,28 +122,28 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
       id: 'home-kit-light',
       name: 'Diva Миглопластика',
       subtitle: 'Мега обем мега гъстота за впечатляващ поглед',
-      price: 35,
+      price: 29,
       image: '/assets/images/Diva_small.webp'
     },
     'home-kit-dark': {
       id: 'home-kit-dark',
       name: 'Dolce Миглопластика',
       subtitle: 'Класически ефект подходящ както за ежедневен така и за вечерен грим',
-      price: 35,
+      price: 29,
       image: '/assets/images/Dolce_small.webp'
     },
     'home-kit-foxy': {
       id: 'home-kit-foxy',
       name: 'Foxy Миглопластика',
-      subtitle: 'Ефект „очна линия“, L изивка',
-      price: 35,
+      subtitle: 'Ефект „очна линия“, L извивка',
+      price: 29,
       image: '/assets/images/Foxy_Small.webp'
     },
     'promo-pack': {
       id: 'promo-pack',
       name: 'Миглопластика на лента',
       subtitle: 'Руски обем с "D" извивка, имитиращи 1 към 1 миглопластика',
-      price: 30,
+      price: 25,
       image: '/assets/images/Migloplastika_Lenta.webp'
     }
   };
@@ -139,6 +168,12 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
     this.buildForm();
     this.restoreItems();
     this.restoreDiscount();
+    this.loadEcontCities();
+
+    const existingCityId = this.getControl('econtCityId').value;
+    if (existingCityId) {
+      this.loadEcontOffices(existingCityId);
+    }
 
     const querySubscription = this.route.queryParamMap.subscribe((params) => {
       const addId = params.get('add');
@@ -281,14 +316,136 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
       lastName: [stored?.lastName ?? '', [Validators.required, Validators.minLength(2)]],
       phone: [stored?.phone ?? '', [Validators.required, Validators.pattern(this.phonePattern)]],
       deliveryMethod: [stored?.deliveryMethod ?? this.deliveryOptions[0].value, Validators.required],
-      deliveryAddress: [stored?.deliveryAddress ?? '', [Validators.required, Validators.minLength(6)]],
+      deliveryAddress: [stored?.deliveryAddress ?? '', [Validators.minLength(6)]],
+      econtCityId: [stored?.econtCityId ?? null],
+      econtOfficeId: [stored?.econtOfficeId ?? null],
       gdprConsent: [stored?.gdprConsent ?? false, Validators.requiredTrue]
     });
+
+    this.updateDeliveryValidators(this.checkoutForm.get('deliveryMethod')?.value as DeliveryMethod);
+
+    const deliveryMethodSub = this.checkoutForm.get('deliveryMethod')!.valueChanges.subscribe((method: DeliveryMethod) => {
+      this.updateDeliveryValidators(method);
+    });
+    this.subscriptions.add(deliveryMethodSub);
+
+    const cityIdSub = this.checkoutForm.get('econtCityId')!.valueChanges.subscribe((cityId: number | null) => {
+      this.getControl('econtOfficeId').setValue(null, { emitEvent: false });
+      this.econtOffices = [];
+      if (cityId) {
+        this.loadEcontOffices(cityId);
+      }
+    });
+    this.subscriptions.add(cityIdSub);
 
     const valueChangesSub = this.checkoutForm.valueChanges.subscribe((value) => {
       this.persistCustomer(value as CheckoutFormValue);
     });
     this.subscriptions.add(valueChangesSub);
+  }
+
+  private updateDeliveryValidators(method: DeliveryMethod): void {
+    const addressControl = this.getControl('deliveryAddress');
+    const cityControl = this.getControl('econtCityId');
+    const officeControl = this.getControl('econtOfficeId');
+
+    if (method === 'econt-office') {
+      addressControl.clearValidators();
+      addressControl.updateValueAndValidity({ emitEvent: false });
+      cityControl.setValidators([Validators.required]);
+      officeControl.setValidators([Validators.required]);
+    } else {
+      addressControl.setValidators([Validators.required, Validators.minLength(6)]);
+      addressControl.updateValueAndValidity({ emitEvent: false });
+      cityControl.clearValidators();
+      officeControl.clearValidators();
+    }
+
+    cityControl.updateValueAndValidity({ emitEvent: false });
+    officeControl.updateValueAndValidity({ emitEvent: false });
+  }
+
+  onCityInputFocus(): void {
+    this.showCityDropdown = true;
+    this.filterCities();
+  }
+
+  onCityInputChange(value: string): void {
+    this.cityFilterText = value;
+    this.showCityDropdown = true;
+
+    if (this.getControl('econtCityId').value !== null) {
+      this.getControl('econtCityId').setValue(null);
+      this.econtOffices = [];
+    }
+
+    this.filterCities();
+  }
+
+  onCityInputBlur(): void {
+    // delay so a mousedown selection on the list can register before it closes
+    setTimeout(() => {
+      this.showCityDropdown = false;
+      this.getControl('econtCityId').markAsTouched();
+    }, 150);
+  }
+
+  selectCity(city: EcontCity): void {
+    this.cityFilterText = city.name;
+    this.getControl('econtCityId').setValue(city.id);
+    this.getControl('econtCityId').markAsTouched();
+    this.showCityDropdown = false;
+  }
+
+  private filterCities(): void {
+    const query = this.cityFilterText.trim().toLowerCase();
+    this.filteredCities = query
+      ? this.econtCities.filter((c) => c.name.toLowerCase().includes(query))
+      : this.econtCities;
+  }
+
+  private loadEcontCities(): void {
+    this.isLoadingCities = true;
+    this.econtLoadError = '';
+
+    const sub = this.http.get<EcontCity[]>('/api/Econt/cities').subscribe({
+      next: (cities) => {
+        this.econtCities = cities.sort((a, b) => a.name.localeCompare(b.name, 'bg'));
+        this.filterCities();
+
+        const selectedCityId = this.getControl('econtCityId').value as number | null;
+        if (selectedCityId) {
+          const selectedCity = this.econtCities.find((c) => c.id === selectedCityId);
+          if (selectedCity) {
+            this.cityFilterText = selectedCity.name;
+          }
+        }
+
+        this.isLoadingCities = false;
+      },
+      error: () => {
+        this.isLoadingCities = false;
+        this.econtLoadError = 'Неуспешно зареждане на градовете на Еконт. Опитай отново по-късно.';
+      }
+    });
+    this.subscriptions.add(sub);
+  }
+
+  private loadEcontOffices(cityId: number): void {
+    this.isLoadingOffices = true;
+    this.econtLoadError = '';
+
+    const sub = this.http.get<EcontOffice[]>(`/api/Econt/offices/${cityId}`).subscribe({
+      next: (offices) => {
+        this.econtOffices = offices;
+        this.isLoadingOffices = false;
+      },
+      error: () => {
+        this.isLoadingOffices = false;
+        this.econtLoadError = 'Неуспешно зареждане на офисите на Еконт. Опитай отново по-късно.';
+      }
+    });
+    this.subscriptions.add(sub);
   }
 
   private createOrderPayload(): OrderPayload {
@@ -313,14 +470,27 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
   private mapCustomerDetails(): CustomerDetails {
     const value = this.checkoutForm.getRawValue() as CheckoutFormValue;
 
+    const deliveryAddress =
+      value.deliveryMethod === 'econt-office'
+        ? this.buildEcontOfficeAddress(value.econtOfficeId)
+        : this.sanitizeAddress(value.deliveryAddress);
+
     return {
       firstName: value.firstName.trim(),
       lastName: value.lastName.trim(),
       phoneNumber: this.sanitizePhone(value.phone),
       deliveryMethod: value.deliveryMethod,
-      deliveryAddress: this.sanitizeAddress(value.deliveryAddress),
+      deliveryAddress,
       isDataProcessingConsented: value.gdprConsent === true
     };
+  }
+
+  private buildEcontOfficeAddress(officeId: number | null): string {
+    const office = this.econtOffices.find((o) => o.id === officeId);
+    if (!office) {
+      return '';
+    }
+    return [office.name, office.address?.fullAddress].filter(Boolean).join(', ');
   }
 
   private sanitizePhone(phone: string): string {
@@ -501,8 +671,13 @@ export class ShoppingBasketComponent implements OnInit, OnDestroy {
       phone: '',
       deliveryMethod: this.deliveryOptions[0].value,
       deliveryAddress: '',
+      econtCityId: null,
+      econtOfficeId: null,
       gdprConsent: false
     });
+    this.econtOffices = [];
+    this.cityFilterText = '';
+    this.filterCities();
     this.checkoutError = '';
     this.isSubmitting = false;
     this.router.navigate(['/thank-you'], { state: { order: payload } });

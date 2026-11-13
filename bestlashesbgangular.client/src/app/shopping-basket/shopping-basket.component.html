@@ -149,10 +149,72 @@
               </span>
             </div>
 
-            <div class="basket-card__field basket-card__field--full">
-              <label class="basket-card__label" for="deliveryAddress">
-                {{ selectedDeliveryMethod === 'personal-address' ? 'Адрес за доставка' : 'Избран офис на Еконт' }}
-              </label>
+            <div class="basket-card__field basket-card__field--full" *ngIf="selectedDeliveryMethod === 'econt-office'">
+              <label class="basket-card__label" for="econtCitySearch">Град</label>
+              <div class="basket-card__autocomplete">
+                <input
+                  id="econtCitySearch"
+                  type="text"
+                  class="basket-card__input basket-card__input--wide"
+                  [class.basket-card__input--invalid]="getControl('econtCityId').invalid && getControl('econtCityId').touched"
+                  [attr.aria-invalid]="getControl('econtCityId').invalid"
+                  [attr.aria-describedby]="getControl('econtCityId').invalid ? 'econtCityId-error' : null"
+                  [value]="cityFilterText"
+                  (input)="onCityInputChange($any($event.target).value)"
+                  (focus)="onCityInputFocus()"
+                  (blur)="onCityInputBlur()"
+                  autocomplete="off"
+                  placeholder="Търси град..."
+                />
+                <ul class="basket-card__autocomplete-list" *ngIf="showCityDropdown">
+                  <li
+                    *ngFor="let city of filteredCities"
+                    class="basket-card__autocomplete-item"
+                    (mousedown)="selectCity(city)"
+                  >
+                    {{ city.name }}
+                  </li>
+                  <li *ngIf="!filteredCities.length" class="basket-card__autocomplete-empty">
+                    Няма намерени градове
+                  </li>
+                </ul>
+              </div>
+              <span
+                *ngIf="getControl('econtCityId').invalid && getControl('econtCityId').touched"
+                class="basket-card__field-error"
+                id="econtCityId-error"
+              >
+                Моля, избери град от списъка.
+              </span>
+              <span *ngIf="econtLoadError" class="basket-card__field-error">{{ econtLoadError }}</span>
+            </div>
+
+            <div class="basket-card__field basket-card__field--full" *ngIf="selectedDeliveryMethod === 'econt-office'">
+              <label class="basket-card__label" for="econtOfficeId">Офис на Еконт</label>
+              <select
+                id="econtOfficeId"
+                formControlName="econtOfficeId"
+                class="basket-card__select"
+                [class.basket-card__input--invalid]="getControl('econtOfficeId').invalid && getControl('econtOfficeId').touched"
+                [attr.aria-invalid]="getControl('econtOfficeId').invalid"
+                [attr.aria-describedby]="getControl('econtOfficeId').invalid ? 'econtOfficeId-error' : null"
+              >
+                <option [ngValue]="null" disabled>{{ isLoadingOffices ? 'Зареждане на офиси...' : 'Изберете офис' }}</option>
+                <option *ngFor="let office of econtOffices" [ngValue]="office.id">
+                  {{ office.name }}{{ office.address?.fullAddress ? ' - ' + office.address?.fullAddress : '' }}
+                </option>
+              </select>
+              <span
+                *ngIf="getControl('econtOfficeId').invalid && getControl('econtOfficeId').touched"
+                class="basket-card__field-error"
+                id="econtOfficeId-error"
+              >
+                Моля, избери офис на Еконт.
+              </span>
+            </div>
+
+            <div class="basket-card__field basket-card__field--full" *ngIf="selectedDeliveryMethod === 'personal-address'">
+              <label class="basket-card__label" for="deliveryAddress">Адрес за доставка</label>
               <input
                 id="deliveryAddress"
                 type="text"
@@ -169,7 +231,7 @@
                 class="basket-card__field-error"
                 id="deliveryAddress-error"
               >
-                Полето е задължително. Моля, опиши пълния адрес или желания офис.
+                Полето е задължително. Моля, опиши пълния адрес.
               </span>
             </div>
           </div>

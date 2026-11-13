@@ -120,6 +120,29 @@
   text-transform: uppercase;
 }
 
+.black-friday-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1.2rem;
+  background: #111;
+  color: #fff;
+  font-size: clamp(1.8rem, 6vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-align: center;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+.black-friday-banner span {
+  font-size: clamp(0.95rem, 2.5vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #ff9bcd;
+}
+
 .package-card__price-badge {
   position: absolute;
   top: -0.35rem;

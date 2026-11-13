@@ -24,7 +24,8 @@ export class HomeImageCardComponent {
     {
       id: 'home-lash-pack',
       name: 'Миглопластика вкъщи',
-      priceEur: 35,
+      priceEur: 29,
+      oldPriceEur: 35,
       description: 'Всичко необходимо, за да направиш миглопластика вкъщи като професионалист.',
       image: '/assets/images/Dolce.webp',
       imageAlt: 'Комплект за миглопластика вкъщи',
@@ -34,7 +35,8 @@ export class HomeImageCardComponent {
     {
       id: 'promo-pack',
       name: 'Миглопластика на лента',
-      priceEur: 30,
+      priceEur: 25,
+      oldPriceEur: 30,
       description: 'Руски обем с „D“ извивка, имитиращи 1 към 1 миглопластика, но само с едно поставяне на лентата.',
       image: '/assets/images/Migloplastika_Lenta.webp',
       imageAlt: 'Миглопластика на лента Best Lashes BG',

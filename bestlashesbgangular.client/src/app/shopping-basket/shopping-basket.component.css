@@ -321,6 +321,45 @@
   box-shadow: 0 0 0 1px rgba(209, 79, 145, 0.28);
 }
 
+.basket-card__autocomplete {
+  position: relative;
+}
+
+.basket-card__autocomplete-list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.35rem 0;
+  list-style: none;
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(176, 63, 130, 0.25);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 18px 40px rgba(150, 32, 92, 0.18);
+}
+
+.basket-card__autocomplete-item {
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  color: #2b0f24;
+  cursor: pointer;
+}
+
+.basket-card__autocomplete-item:hover,
+.basket-card__autocomplete-item:focus {
+  background: rgba(176, 63, 130, 0.12);
+}
+
+.basket-card__autocomplete-empty {
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  color: rgba(43, 15, 36, 0.55);
+}
+
 .basket-card__field-error {
   font-size: 0.75rem;
   color: #d14f91;

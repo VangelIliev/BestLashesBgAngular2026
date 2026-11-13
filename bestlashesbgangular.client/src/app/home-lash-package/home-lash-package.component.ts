@@ -1,4 +1,4 @@
-﻿import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { formatCurrencyPair } from '../shared/currency';
 
 interface LashVariant {
@@ -26,7 +26,8 @@ export class HomeLashPackageComponent implements AfterViewInit, OnDestroy {
   constructor(private readonly renderer: Renderer2) {}
   readonly demoVideoSrc = '/assets/videos/Migloplastika_vkushti.mp4';
   readonly demoVideoPoster = '/assets/images/Dolce_small.webp';
-  readonly kitPriceEur = 35;
+  readonly kitPriceEur = 29;
+  readonly kitOldPriceEur = 35;
   readonly freeShippingThresholdEur = 50;
 
   readonly variants: LashVariant[] = [

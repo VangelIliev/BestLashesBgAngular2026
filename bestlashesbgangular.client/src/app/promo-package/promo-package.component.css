@@ -124,6 +124,15 @@
   gap: 0.8rem;
 }
 
+.promo-package__price-bubble .bf-label {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #fff;
+  background: #111;
+  padding: 0.25rem 0.8rem;
+  border-radius: 0.7rem;
+}
+
 .promo-package__price-bubble .old-price {
   font-size: 1rem;
   font-weight: 600;

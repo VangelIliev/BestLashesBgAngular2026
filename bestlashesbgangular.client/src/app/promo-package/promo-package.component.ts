@@ -16,7 +16,8 @@ export class PromoPackageComponent implements AfterViewInit, OnDestroy {
   readonly promoVideoSrc = '/assets/videos/Migloplastica_Lenta_Vid.mp4';
   readonly promoVideoPoster = '/assets/images/Migloplastika_Lenta.webp';
   readonly productImage = '/assets/images/Migloplastika_Lenta.webp';
-  readonly promoPriceEur = 30;
+  readonly promoPriceEur = 25;
+  readonly promoOldPriceEur = 30;
   readonly freeShippingThresholdEur = 50;
 
   readonly perks: string[] = [

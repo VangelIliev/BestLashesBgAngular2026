@@ -17,6 +17,11 @@ builder.Services.AddScoped<IEmailSender>(sp =>
     return new EmailSender(options.Value);
 });
 
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient(EcontService.HttpClientName);
+builder.Services.AddScoped<IEcontService, EcontService>();
+builder.Services.AddHostedService<EcontCitiesCacheHostedService>();
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
